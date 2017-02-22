@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_width="0px"
+        android:layout_height="0px" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:text="@string/StartEngineSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:id="@+id/textView"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:textSize="8pt" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/tvMinVal"
+                android:gravity="bottom|left"
+                android:layout_marginLeft="10dp"
+                android:text="tvMinVal"
+                android:layout_weight="1"
+                android:textSize="8pt" />
+
+            <TextView
+                android:text="tvCurrValTemp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="bottom|center"
+                android:id="@+id/tvCurrValTemp"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp"
+                android:textSize="12pt" />
+
+            <TextView
+                android:text="tvMaxVal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/tvMaxVal"
+                android:gravity="bottom|right"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:textSize="8pt" />
+        </LinearLayout>
+
+        <SeekBar
+            style="@style/Widget.AppCompat.SeekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:progress="1"
+            android:id="@+id/seekBarTemp"
+            android:progressDrawable="@drawable/seekbar_progressbar" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp">
+
+            <Button
+                android:text="@string/StartEngineTemp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/bSetTemper"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:background="@drawable/button_selector"
+                android:textColor="@android:color/background_light"
+                android:onClick="startTemperButtonClick"
+                android:textStyle="normal|bold"
+                android:textSize="8pt" />
+
+            <Button
+                android:text="@string/StopEngineTemp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/bResetTemper"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:background="@drawable/button_selector"
+                android:textColor="@android:color/background_light"
+                android:onClick="stopTemperButtonClick"
+                android:textStyle="normal|bold"
+                android:textSize="8pt" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">АвтоЗапуск</string>
+    <string name="hintPhoneEditText">Введите номер телефона</string>
+    <string name="timerDefault">00:00:00</string>
+    <string name="ActivateDevice">Активация устройства</string>
+    <string name="ResetDevice">Сброс устройства</string>
+    <string name="StartEngine">Старт</string>
+    <string name="StopEngine">Стоп</string>
+    <string name="StartEngineTemp">Применить</string>
+    <string name="StopEngineTemp">Деактивировать</string>
+    <string name="action_settings">Настойки</string>
+    <string name="action_main">Главный экран</string>
+    <string name="StartEngineSettings"><b>Запуск двигателя по температуре</b></string>
+    <string name="temp_notification">Активен запуск двигателя по температуре при</string>
+</resources>
