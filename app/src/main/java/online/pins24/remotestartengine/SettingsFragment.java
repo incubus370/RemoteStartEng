@@ -1,26 +1,26 @@
 package online.pins24.remotestartengine;
 
-import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.telephony.SmsManager;
 import android.text.TextUtils;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SettingsActivity extends Activity
+public class SettingsFragment extends BaseFragment
 {
     SeekBar seekBar;
     SharedPreferences sharedPref;
@@ -38,11 +38,15 @@ public class SettingsActivity extends Activity
     private int minSeek = -50;
     private String currentPhone;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_settings, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         //ищем наши вьюхи на активити
         findViews();
         setDefaultSettings();
@@ -52,12 +56,13 @@ public class SettingsActivity extends Activity
     //region findViews() Поиск вьюх определенных в R.id
     private void findViews()
     {
-        seekBar = (SeekBar) findViewById(R.id.seekBarTemp);
-        minV = (TextView) findViewById(R.id.tvMinVal);
-        maxV = (TextView) findViewById(R.id.tvMaxVal);
-        currV = (TextView) findViewById(R.id.tvCurrValTemp);
-        bSetTemperStart = (Button) findViewById(R.id.bSetTemper);
-        bResetTemperStart = (Button) findViewById(R.id.bResetTemper);
+        View rootView = getView();
+        seekBar = (SeekBar) rootView.findViewById(R.id.seekBarTemp);
+        minV = (TextView) rootView.findViewById(R.id.tvMinVal);
+        maxV = (TextView) rootView.findViewById(R.id.tvMaxVal);
+        currV = (TextView) rootView.findViewById(R.id.tvCurrValTemp);
+        bSetTemperStart = (Button) rootView.findViewById(R.id.bSetTemper);
+        bResetTemperStart = (Button) rootView.findViewById(R.id.bResetTemper);
     }
     //endregion
 
@@ -73,9 +78,10 @@ public class SettingsActivity extends Activity
     //region fillData() Загрузка данных при старте приложения
     private void fillData()
     {
-        Toast.makeText(this, "Загрузка...", Toast.LENGTH_SHORT).show();
+        Context context = getContext();
+        Toast.makeText(context, "Загрузка...", Toast.LENGTH_SHORT).show();
         //Используем созданный файл данных SharedPreferences:
-        sharedPref = getSharedPreferences(SHAREDPREF, MODE_PRIVATE);
+        sharedPref = context.getSharedPreferences(SHAREDPREF, Context.MODE_PRIVATE);
         currentPhone = sharedPref.getString(PHONESHAREDPREF, null);
         currTempValue = Integer.parseInt(sharedPref.getString(TEMPVALSHAREDPREF, "0"));
         currV.setText(sharedPref.getString(TEMPVALSHAREDPREF, "0") + CELSIUS);
@@ -106,38 +112,13 @@ public class SettingsActivity extends Activity
                 }
             };
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        if (menu != null)
-        {
-            menu.findItem(R.id.action_settings).setVisible(false);
-            menu.findItem(R.id.action_main).setVisible(true);
-        }
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case R.id.action_main:
-            {
-                askForSave();
-                return true;
-            }
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     //region SaveSharedPref() Читаем сохраненные настройки
     private void saveSharedPref()
     {
-        Toast.makeText(this, "Сохраняем...", Toast.LENGTH_SHORT).show();
+        Context context = getContext();
+        Toast.makeText(getContext(), "Сохраняем...", Toast.LENGTH_SHORT).show();
         //Создаем объект Editor для создания пар имя-значение:
-        sharedPref = getSharedPreferences(SHAREDPREF, MODE_PRIVATE);
+        sharedPref = context.getSharedPreferences(SHAREDPREF, Context.MODE_PRIVATE);
         //Создаем объект Editor для создания пар имя-значение:
         SharedPreferences.Editor shpEditor = sharedPref.edit();
         shpEditor.putString(TEMPVALSHAREDPREF, Integer.toString(currTempValue));
@@ -148,7 +129,7 @@ public class SettingsActivity extends Activity
     private void askForSave()
     {
         //Спрашиваем надо ли нам это
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(SettingsActivity.this);
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
 
         alertDialog.setTitle("Настройки...");
         alertDialog.setMessage("Вы уверены, что выбранные настройки уже сохранены на контроллере автомобиля?\n" +
@@ -161,7 +142,7 @@ public class SettingsActivity extends Activity
             {
                 //пишем если надо
                 saveSharedPref();
-                finish();
+                // ? finish();
             }
         });
         //endregion
@@ -172,7 +153,7 @@ public class SettingsActivity extends Activity
             public void onClick(DialogInterface dialog, int which)
             {
                 dialog.cancel();
-                finish();
+                // ? finish();
             }
         });
         //endregion
@@ -183,7 +164,7 @@ public class SettingsActivity extends Activity
     public void startTemperButtonClick(View view)
     {
         //Спрашиваем надо ли нам это
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(SettingsActivity.this);
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
 
         alertDialog.setTitle("Настройки...");
         alertDialog.setMessage("Уверены?");
@@ -229,7 +210,7 @@ public class SettingsActivity extends Activity
     private void showToast(View view, String str)
     {
         //создаем и отображаем текстовое уведомление
-        Toast toast = Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(getContext(), str, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);
         GradientDrawable gd = new GradientDrawable();
         gd.setColor(0xFFCB3E3E);
@@ -259,7 +240,7 @@ public class SettingsActivity extends Activity
     public void stopTemperButtonClick(View view)
     {
         //Спросили хотим ли застопить принудительно
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(SettingsActivity.this);
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
 
         alertDialog.setTitle("Настройки...");
         alertDialog.setMessage("Уверены?");

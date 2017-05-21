@@ -8,8 +8,12 @@
     <string name="StopEngine">Стоп</string>
     <string name="StartEngineTemp">Применить</string>
     <string name="StopEngineTemp">Деактивировать</string>
-    <string name="action_settings">Настойки</string>
-    <string name="action_main">Главный экран</string>
+    <string name="settings_title">Настойки</string>
+    <string name="main_title">Главный экран</string>
     <string name="StartEngineSettings"><b>Запуск двигателя по температуре</b></string>
     <string name="temp_notification">Активен запуск двигателя по температуре при</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
 </resources>
